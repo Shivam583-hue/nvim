@@ -17,6 +17,7 @@ local options = {
     nix = { "alejandra" },
     go = { "goimports", "gofumpt" },
     rust = { "rustfmt" },
+    python = { "isort", "black" },
     elixir = { "mix" },
     heex = { "mix" },
   },

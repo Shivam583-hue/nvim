@@ -19,22 +19,22 @@ local plugins = {
     lazy = true,
   },
   {
-"ellisonleao/carbon-now.nvim",
-  lazy = true,
-  cmd = "CarbonNow",
-  ---@param opts cn.ConfigSchema
-  opts = { [[ your custom config here ]] }
+    "ellisonleao/carbon-now.nvim",
+    lazy = true,
+    cmd = "CarbonNow",
+    ---@param opts cn.ConfigSchema
+    opts = { [[ your custom config here ]] }
   },
   {
-  "sphamba/smear-cursor.nvim",
-  opts = {},
+    "sphamba/smear-cursor.nvim",
+    opts = {},
   },
   {
-  "supermaven-inc/supermaven-nvim",
-  event = "VeryLazy",
-  config = function()
-    require("configs.supermaven")
-  end,
+    "supermaven-inc/supermaven-nvim",
+    event = "VeryLazy",
+    config = function()
+      require("configs.supermaven")
+    end,
   },
   {
     "ThePrimeagen/harpoon",
@@ -58,7 +58,7 @@ local plugins = {
       defaults = {
         winblend = 10,
         sorting_strategy = "ascending",
-        file_sorter = require("telescope.sorters").get_fzy_sorter, -- Ensure fzy_native is installed
+        file_sorter = require("telescope.sorters").get_fzy_sorter,
         layout_config = {
           horizontal = { mirror = false },
           vertical = { mirror = false },
@@ -84,13 +84,63 @@ local plugins = {
       require("configs.lspconfig")
     end,
   },
+
+  -- blink.cmp (replaces nvim-cmp)
   {
-    "nvimtools/none-ls.nvim",
-    -- Temporarily disable none-ls to avoid crashes in its client.lua
-    -- (attempt to index field '_request_name_to_capability') when
-    -- other plugins query LSP capabilities on BufWritePre.
-    enabled = false,
+    "saghen/blink.cmp",
+    event = { "InsertEnter", "CmdlineEnter" },
+    version = "1.*",
+    dependencies = {
+      "rafamadriz/friendly-snippets",
+      "L3MON4D3/LuaSnip",
+    },
+    opts = {
+      keymap = {
+        preset = "default",
+        ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+        ["<C-e>"] = { "hide" },
+        ["<CR>"] = { "accept", "fallback" },
+        ["<Tab>"] = { "snippet_forward", "fallback" },
+        ["<S-Tab>"] = { "snippet_backward", "fallback" },
+        ["<Up>"] = { "select_prev", "fallback" },
+        ["<Down>"] = { "select_next", "fallback" },
+        ["<C-p>"] = { "select_prev", "fallback" },
+        ["<C-n>"] = { "select_next", "fallback" },
+        ["<C-b>"] = { "scroll_documentation_up", "fallback" },
+        ["<C-f>"] = { "scroll_documentation_down", "fallback" },
+      },
+      appearance = {
+        nerd_font_variant = "mono",
+      },
+      completion = {
+        documentation = { auto_show = true, auto_show_delay_ms = 200 },
+        ghost_text = { enabled = true },
+        list = {
+          selection = { preselect = true, auto_insert = false },
+        },
+        menu = {
+          draw = {
+            treesitter = { "lsp" },
+          },
+        },
+      },
+      snippets = { preset = "luasnip" },
+      sources = {
+        default = { "lsp", "path", "snippets", "buffer", "lazydev" },
+        providers = {
+          lazydev = {
+            name = "LazyDev",
+            module = "lazydev.integrations.blink",
+            score_offset = 100,
+          },
+        },
+      },
+    },
   },
+
+  -- Disable NvChad's built-in cmp
+  { "hrsh7th/nvim-cmp", enabled = false },
+
   {
     "windwp/nvim-ts-autotag",
     ft = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
@@ -118,21 +168,22 @@ local plugins = {
   },
   {
     "folke/todo-comments.nvim",
-    cmd = { "TodoTrouble", "TodoTelescope" },
+    event = "BufReadPost",
     config = true,
   },
+
+  -- lazydev.nvim (replaces neodev.nvim)
   {
-    "folke/neodev.nvim",
-    event = "VeryLazy",
-    config = function()
-      require("neodev").setup({
-        library = {
-          plugins = { "nvim-dap-ui" },
-          types = true,
-        },
-      })
-    end,
+    "folke/lazydev.nvim",
+    ft = "lua",
+    opts = {
+      library = {
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+        { path = "nvim-dap-ui" },
+      },
+    },
   },
+
   {
     "mfussenegger/nvim-dap",
     config = function()
@@ -146,7 +197,7 @@ local plugins = {
   },
   {
     "nat-418/boole.nvim",
-    event = "VeryLazy",
+    event = "BufReadPost",
     config = function()
       require("boole").setup()
     end,
@@ -195,7 +246,7 @@ local plugins = {
     },
     build = ':lua require("go.install").update_all_sync()',
   },
-  
+
   {
     "OXY2DEV/markview.nvim",
     event = "VeryLazy",
@@ -211,7 +262,7 @@ local plugins = {
       require("configs.smart-yank")
     end,
   },
-{ 'wakatime/vim-wakatime', lazy = false },
+  { 'wakatime/vim-wakatime', lazy = false },
   {
     "andweeb/presence.nvim",
     event = "VeryLazy",
@@ -243,7 +294,6 @@ local plugins = {
       local elixirls = require("elixir.elixirls")
 
       elixir.setup {
-        -- Use a single Elixir LSP. nextls is disabled unless installed explicitly.
         credo = { enable = true },
         elixirls = {
           enable = true,
@@ -261,6 +311,26 @@ local plugins = {
     end,
     dependencies = {
       "nvim-lua/plenary.nvim",
+    },
+  },
+
+  -- Session management
+  {
+    "folke/persistence.nvim",
+    event = "BufReadPre",
+    opts = {},
+  },
+
+  -- Flash.nvim (fast navigation)
+  {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    opts = {},
+    keys = {
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+      { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
     },
   },
 }

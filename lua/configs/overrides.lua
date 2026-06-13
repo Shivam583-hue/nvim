@@ -30,6 +30,9 @@ M.treesitter = {
     -- rust
     "rust",
 
+    -- typst
+    "typst",
+
     -- elixir
     "elixir",
     "heex",
@@ -66,6 +69,9 @@ M.mason = {
 
     -- rust
     "codelldb",
+
+    -- typst
+    "tinymist",
 
     -- Python
     "pyright",
