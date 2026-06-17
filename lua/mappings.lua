@@ -70,6 +70,9 @@ map("n", "<Leader>Q", ":qa<Return>", opts)
 -- Format for C++
 map("n", "<Leader>fkk", ":Format<CR>", opts)
 
+-- Wrap word in quotes
+map("n", '<leader>"', 'ciw"<C-r>""<Esc>', { desc = "Wrap word in double quotes" })
+
 -- Select All
 map("n", "<C-a>", "gg<S-v>G", opts)
 
