@@ -1,21 +1,22 @@
 local configs = require("nvchad.configs.lspconfig")
-local on_attach = configs.on_attach
-local capabilities = configs.capabilities
 
-local lspconfig = require("lspconfig")
-
-local servers = { "eslint", "gopls", "templ", "clangd", "pyright", "rust_analyzer", "elixirls", "tinymist" }
+local servers = {
+  "eslint",
+  "gopls",
+  "templ",
+  "clangd",
+  "pyright",
+  "rust_analyzer",
+  "elixirls",
+  "tinymist",
+}
 
 for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup({
-    on_attach = on_attach,
-    capabilities = capabilities,
-  })
+  vim.lsp.config(lsp, {})
+  vim.lsp.enable(lsp)
 end
 
-lspconfig.nil_ls.setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
+vim.lsp.config("nil_ls", {
   filetypes = { "nix" },
   cmd = { "nil" },
   settings = {
@@ -26,33 +27,19 @@ lspconfig.nil_ls.setup({
     },
   },
 })
+vim.lsp.enable("nil_ls")
 
-lspconfig.html.setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
+vim.lsp.config("html", {
   filetypes = { "html", "templ" },
 })
+vim.lsp.enable("html")
 
-lspconfig.htmx.setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
+vim.lsp.config("htmx", {
   filetypes = { "html", "templ" },
 })
+vim.lsp.enable("htmx")
 
---lspconfig.tailwindcss.setup({
---  on_attach = on_attach,
---  capabilities = capabilities,
---  filetypes = { "templ", "astro", "javascript", "typescript", "react", "typescriptreact" },
---  init_options = { userLanguages = { templ = "html" } },
---})
-
--- Python LSP configuration
-lspconfig.pyright.setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
-})
-lspconfig.elixirls.setup({
+vim.lsp.config("elixirls", {
   cmd = { vim.fn.stdpath("data") .. "/mason/bin/elixir-ls" },
-  on_attach = on_attach,
-  capabilities = capabilities,
 })
+vim.lsp.enable("elixirls")
