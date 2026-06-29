@@ -76,9 +76,6 @@ map("n", '<leader>"', 'ciw"<C-r>""<Esc>', { desc = "Wrap word in double quotes" 
 -- Select All
 map("n", "<C-a>", "gg<S-v>G", opts)
 
--- Jumplist
-map("n", "<C-m>", "<C-i>", opts)
-
 -- Split Window
 map("n", "ss", ":split<Return>", opts)
 map("n", "sv", ":vsplit<Return>", opts)
@@ -117,10 +114,10 @@ map("n", "<leader>o", "<cmd>Outline<cr>", { desc = "Toggle Outline" })
 map("n", "<leader>X", closeAllBuffer, { desc = "Close all buffers" })
 
 -- Debug Adapter Protocol (DAP)
-map("n", "<C-b>", "<cmd>DapToggleBreakpoint<cr>", { desc = "Toggle break point" })
-map("n", "<C-c>", "<cmd>DapContinue<cr>", { desc = "Continue" })
-map("n", "<C-x>", "<cmd>DapTerminate<cr>", { desc = "Terminate" })
-map("n", "<C-o>", "<cmd>DapStepOver<cr>", { desc = "Step over" })
+map("n", "<leader>db", "<cmd>DapToggleBreakpoint<cr>", { desc = "Toggle break point" })
+map("n", "<leader>dc", "<cmd>DapContinue<cr>", { desc = "Continue" })
+map("n", "<leader>dt", "<cmd>DapTerminate<cr>", { desc = "Terminate" })
+map("n", "<leader>do", "<cmd>DapStepOver<cr>", { desc = "Step over" })
 
 -- Go To Tab
 for i = 1, 9, 1 do

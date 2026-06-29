@@ -12,7 +12,6 @@ local plugins = {
   {
    'kaarmu/typst.vim',
    ft = 'typst',
-   lazy=false,
   },
   {
     "NvChad/base46",
@@ -23,7 +22,7 @@ local plugins = {
     lazy = true,
     cmd = "CarbonNow",
     ---@param opts cn.ConfigSchema
-    opts = { [[ your custom config here ]] }
+    opts = {},
   },
   {
     "sphamba/smear-cursor.nvim",
