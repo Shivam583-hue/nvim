@@ -10,6 +10,10 @@ M.treesitter = {
     "markdown",
     "markdown_inline",
 
+    -- c/c++
+    "c",
+    "cpp",
+
     -- web dev
     "html",
     "css",

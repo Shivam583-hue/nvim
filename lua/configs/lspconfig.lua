@@ -4,7 +4,6 @@ local servers = {
   "eslint",
   "gopls",
   "templ",
-  "clangd",
   "pyright",
   "rust_analyzer",
   "elixirls",
@@ -15,6 +14,23 @@ for _, lsp in ipairs(servers) do
   vim.lsp.config(lsp, {})
   vim.lsp.enable(lsp)
 end
+
+vim.lsp.config("clangd", {
+  cmd = {
+    "clangd",
+    "--background-index",
+    "--clang-tidy",
+    "--header-insertion=never",
+    "--completion-style=detailed",
+    "--function-arg-placeholders",
+    "--fallback-style=llvm",
+  },
+  init_options = {
+    -- used for standalone files without compile_commands.json (the CP case)
+    fallbackFlags = { "-std=gnu++17", "-Wall", "-Wextra", "-DLOCAL" },
+  },
+})
+vim.lsp.enable("clangd")
 
 vim.lsp.config("nil_ls", {
   filetypes = { "nix" },

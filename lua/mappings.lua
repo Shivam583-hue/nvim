@@ -5,11 +5,19 @@ local map = vim.keymap.set
 local keymap = vim.keymap
 local opts = { noremap = true, silent = true }
 
+local float_opts = {
+  relative = "editor",
+  row = 0.1,
+  col = 0.1,
+  width = 0.8,
+  height = 0.8,
+}
+
 -- ===============================
 -- 🚀 Competitive Programming Setup
 -- ===============================
 
-local cp_run = function()
+local cp_compile_and_run = function(use_input_file)
   if vim.bo.filetype ~= "cpp" then
     print("Not a C++ file")
     return
@@ -27,15 +35,31 @@ local cp_run = function()
       output
     )
 
+  local run_cmd = "./" .. output
+  if use_input_file then
+    local input = vim.fn.expand("%:p:h") .. "/input.txt"
+    if vim.fn.filereadable(input) == 0 then
+      vim.fn.writefile({}, input)
+    end
+    run_cmd = run_cmd .. " < " .. vim.fn.fnameescape(input)
+  end
+
   require("nvchad.term").toggle({
     pos = "float",
     id = "cp_run",
     float_opts = float_opts,
-    cmd = compile_cmd .. " && ./" .. output,
+    cmd = compile_cmd .. " && " .. run_cmd,
   })
 end
 
-map("n", "<F5>", cp_run, { desc = "CP Compile & Run" })-- Toggle Floating Terminal
+map("n", "<F5>", function() cp_compile_and_run(false) end, { desc = "CP Compile & Run" })
+map("n", "<F6>", function() cp_compile_and_run(true) end, { desc = "CP Compile & Run < input.txt" })
+map("n", "<leader>ci", function()
+  local input = vim.fn.expand("%:p:h") .. "/input.txt"
+  vim.cmd("vsplit " .. vim.fn.fnameescape(input))
+end, { desc = "CP edit input.txt" })
+
+-- Toggle Floating Terminal
 local toggleTerm = function()
   require("nvchad.term").toggle({ pos = "float", id = "float", float_opts = float_opts })
 end
@@ -67,8 +91,10 @@ map("n", "<Leader>w", ":update<Return>", opts)
 map("n", "<Leader>q", ":quit<Return>", opts)
 map("n", "<Leader>Q", ":qa<Return>", opts)
 
--- Format for C++
-map("n", "<Leader>fkk", ":Format<CR>", opts)
+-- Format buffer (conform, falls back to LSP)
+map("n", "<Leader>fkk", function()
+  require("conform").format({ lsp_fallback = true })
+end, { desc = "Format buffer" })
 
 -- Wrap word in quotes
 map("n", '<leader>"', 'ciw"<C-r>""<Esc>', { desc = "Wrap word in double quotes" })

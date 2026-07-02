@@ -140,6 +140,19 @@ local plugins = {
   -- Disable NvChad's built-in cmp
   { "hrsh7th/nvim-cmp", enabled = false },
 
+  -- Autopairs standalone (NvChad only loads it as a dependency of nvim-cmp,
+  -- which is disabled above, so it must be declared and configured here)
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    config = function()
+      require("nvim-autopairs").setup({
+        fast_wrap = {},
+        disable_filetype = { "TelescopePrompt", "vim" },
+      })
+    end,
+  },
+
   {
     "windwp/nvim-ts-autotag",
     ft = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
