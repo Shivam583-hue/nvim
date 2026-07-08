@@ -1,3 +1,11 @@
+-- Typst: type $$ to expand into a block math skeleton, cursor left in the middle
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "typst",
+  callback = function(args)
+    vim.keymap.set("i", "$$", "$<CR><CR>$<Up><End>", { buffer = args.buf, desc = "Typst math block" })
+  end,
+})
+
 -- Insert the CP template into freshly created .cpp files
 vim.api.nvim_create_autocmd("BufNewFile", {
   pattern = "*.cpp",
