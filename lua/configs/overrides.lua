@@ -40,6 +40,9 @@ M.treesitter = {
     -- elixir
     "elixir",
     "heex",
+
+    -- python
+    "python",
   },
 }
 
@@ -79,8 +82,7 @@ M.mason = {
 
     -- Python
     "pyright",
-    "black",
-    "isort",
+    "ruff",
   },
 }
 

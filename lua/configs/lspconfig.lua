@@ -5,6 +5,7 @@ local servers = {
   "gopls",
   "templ",
   "pyright",
+  "ruff",
   "rust_analyzer",
   "elixirls",
   "tinymist",
@@ -31,6 +32,13 @@ vim.lsp.config("clangd", {
   },
 })
 vim.lsp.enable("clangd")
+
+vim.lsp.config("ruff", {
+  on_attach = function(client)
+    -- pyright already provides hover; ruff only needed for lint/format
+    client.server_capabilities.hoverProvider = false
+  end,
+})
 
 vim.lsp.config("nil_ls", {
   filetypes = { "nix" },
