@@ -162,7 +162,25 @@ single-file C++ programs; projects with multiple source files should provide the
 - **Supermaven** (AI completion) - run `:SupermavenUseFree` (or log in) the first time you want it active.
 - **WakaTime** (`vim-wakatime`) - drop an API key into `~/.wakatime.cfg`, otherwise the plugin is a harmless no-op.
 - **Discord Rich Presence** (`presence.nvim`) - just needs the Discord desktop app running; nothing to configure.
-- **Neovide** - `lua/neovide.lua` only takes effect if you're running the separate [Neovide](https://neovide.dev) GUI app instead of a terminal.
+
+### Neovide
+
+[Neovide](https://neovide.dev) is optional and must be installed separately. Start it with
+`neovide`; `lua/neovide.lua` is ignored during ordinary terminal Neovim sessions.
+
+The Neovide profile uses the configured JetBrains Mono Nerd Font with 90% window opacity,
+a `0.7` initial UI scale, a 144 Hz active refresh target, and a 5 Hz idle refresh target.
+The 144 Hz target only applies when Neovide is launched with `neovide --no-vsync`;
+otherwise Neovide follows the display's VSync behavior.
+
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl` + `=` | Zoom in |
+| `Ctrl` + `-` | Zoom out |
+| `Ctrl` + `Shift` + `C` | Copy selection on Linux/Windows |
+| `Ctrl` + `Shift` + `V` | Paste on Linux/Windows |
+| `Command` + `C` | Copy selection on macOS |
+| `Command` + `V` | Paste on macOS |
 
 ## Updating
 
