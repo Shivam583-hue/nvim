@@ -19,4 +19,13 @@ if g.neovide then
 
   map("n", "<C-=>", zoomInNeovide, { desc = "Zoom In (Neovide)" })
   map("n", "<C-->", zoomOutNeovide, { desc = "Zoom Out (Neovide)" })
+
+  -- Clipboard copy and paste mappings for Neovide
+  -- Paste in normal, insert, visual, command-line, and terminal modes
+  map({ "n", "i", "v", "c", "t" }, "<C-S-v>", function()
+    vim.api.nvim_paste(vim.fn.getreg("+"), true, -1)
+  end, { desc = "Paste from system clipboard" })
+
+  -- Copy in visual mode
+  map("v", "<C-S-c>", '"+y', { desc = "Copy to system clipboard" })
 end

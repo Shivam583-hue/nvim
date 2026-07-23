@@ -140,10 +140,14 @@ map("n", "<leader>o", "<cmd>Outline<cr>", { desc = "Toggle Outline" })
 map("n", "<leader>X", closeAllBuffer, { desc = "Close all buffers" })
 
 -- Debug Adapter Protocol (DAP)
-map("n", "<leader>db", "<cmd>DapToggleBreakpoint<cr>", { desc = "Toggle break point" })
+map("n", "<leader>db", "<cmd>DapToggleBreakpoint<cr>", { desc = "Toggle breakpoint" })
 map("n", "<leader>dc", "<cmd>DapContinue<cr>", { desc = "Continue" })
 map("n", "<leader>dt", "<cmd>DapTerminate<cr>", { desc = "Terminate" })
 map("n", "<leader>do", "<cmd>DapStepOver<cr>", { desc = "Step over" })
+map("n", "<leader>di", "<cmd>DapStepInto<cr>", { desc = "Step into" })
+map("n", "<leader>dO", "<cmd>DapStepOut<cr>", { desc = "Step out" })
+map("n", "<leader>du", function() require("dapui").toggle() end, { desc = "Toggle debugger UI" })
+map({ "n", "v" }, "<leader>de", function() require("dapui").eval() end, { desc = "Evaluate expression" })
 
 -- Go To Tab
 for i = 1, 9, 1 do

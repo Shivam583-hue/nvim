@@ -127,7 +127,7 @@ Then set your terminal emulator's font to "JetBrainsMono Nerd Font Mono".
 
 | Language        | LSP              | Formatter                          | Notes                                   |
 |-----------------|------------------|-------------------------------------|------------------------------------------|
-| C / C++         | clangd           | clang-format                        | clangd/clang-format from system LLVM, not Mason |
+| C / C++         | clangd           | clang-format                        | CodeLLDB debugging; clangd/clang-format from system LLVM |
 | Go              | gopls            | goimports, gofumpt                  | extra tools installed by go.nvim on first use |
 | Rust            | rust_analyzer    | rustfmt                             | codelldb for debugging |
 | Python          | pyright, ruff    | ruff (format + import sort)         | ruff also supplies linting via LSP diagnostics |
@@ -138,6 +138,24 @@ Then set your terminal emulator's font to "JetBrainsMono Nerd Font Mono".
 | Elixir/HEEx     | elixirls, credo  | mix format                          | needs system Erlang/Elixir |
 | Typst           | tinymist         | -                                    | |
 | Lua             | lua-language-server | stylua                          | luacheck for linting |
+
+## Debugging a C++ file
+
+The C++ debugger uses `nvim-dap` with CodeLLDB. Open a `.cpp` file, then:
+
+1. Move to a line where you want execution to pause and press `Space d b` to set a breakpoint.
+2. Press `Space d c`. Neovim saves the file, builds it with debug information, and starts it.
+3. When execution pauses, inspect variables in the debugger UI and use:
+   - `Space d o` to run the current line without entering a called function.
+   - `Space d i` to enter a function called on the current line.
+   - `Space d O` to finish the current function and return to its caller.
+   - `Space d e` to inspect the expression under the cursor or the selected expression.
+   - `Space d c` to continue to the next breakpoint.
+4. Press `Space d t` to stop, or `Space d u` to show or hide the debugger UI.
+
+Program input and output use an integrated terminal. The automatic build is intended for
+single-file C++ programs; projects with multiple source files should provide their own
+`.vscode/launch.json` and build the executable before starting DAP.
 
 ## Optional integrations
 
